@@ -1,4 +1,6 @@
 from os.path import join
+import sys
+sys.path.append("/home/kjh/disambiguation")
 import os
 import numpy as np
 from keras import backend as K

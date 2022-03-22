@@ -1,4 +1,6 @@
 from os.path import join
+import sys
+sys.path.append("/home/kjh/disambiguation")
 import os
 import multiprocessing as mp
 import random

@@ -1,4 +1,6 @@
 from os.path import join
+import sys
+sys.path.append("/home/kjh/disambiguation")
 import numpy as np
 import keras.backend as K
 import tensorflow as tf
@@ -119,4 +121,5 @@ def run_rnn(k=300, seed=1106):
 
 
 if __name__ == '__main__':
-    run_rnn()
+    with tf.device('/GPU:0'):
+        run_rnn()

@@ -1,4 +1,6 @@
 from os.path import join
+import sys
+sys.path.append("/home/kjh/disambiguation")
 import codecs
 import math
 from collections import defaultdict as dd
