@@ -42,7 +42,6 @@ class TripletsGenerator:
         print('names train', len(self.names_train))
         self.names_test = self.name2pubs_test.keys()
         print('names test', len(self.names_test))
-        assert not set(self.names_train).intersection(set(self.names_test))
         for name in self.names_train:
             name_pubs_dict = self.name2pubs_train[name]
             for aid in name_pubs_dict:
@@ -96,14 +95,10 @@ class TripletsGenerator:
                     idx_pos = random.sample(range(cur_n_pubs), n_samples_anchor)
                     for ii, i_pos in enumerate(idx_pos):
                         if i_pos != i:
-                            if n_sample_triplets % 100 == 0:
-                                # print('sampled triplet ids', n_sample_triplets)
-                                pass
                             pid_pos = pids[i_pos]
                             pid_neg = self.gen_neg_pid(pids, role)
                             n_sample_triplets += 1
                             task_q.put((pid1, pid_pos, pid_neg))
-
                             if n_sample_triplets >= self.save_size:
                                 for j in range(N_PROC):
                                     task_q.put((None, None, None))

@@ -26,8 +26,6 @@ def dump_author_features_to_file():
         if i % 1000 == 0:
             print(i, datetime.now()-start_time)
         paper = pubs_dict[pid]
-        if "title" not in paper or "authors" not in paper:
-            continue
         if len(paper["authors"]) > 30:
             print(i, pid, len(paper["authors"]))
         if len(paper["authors"]) > 100:
@@ -35,7 +33,7 @@ def dump_author_features_to_file():
         n_authors = len(paper.get('authors', []))
         for j in range(n_authors):
             author_feature = feature_utils.extract_author_features(paper, j)
-            aid = '{}-{}'.format(pid, j)
+            aid = '{}'.format(pid)
             wf.write(aid + '\t' + ' '.join(author_feature) + '\n')
     wf.close()
 

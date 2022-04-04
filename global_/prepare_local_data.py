@@ -10,7 +10,7 @@ from utils.cache import LMDBClient
 from utils import data_utils
 from utils import settings
 
-IDF_THRESHOLD = 32  # small data
+IDF_THRESHOLD = 1  # small data
 # IDF_THRESHOLD = 10
 
 
@@ -31,7 +31,7 @@ def dump_inter_emb():
         embs_input = []
         pids = []
         for i, aid in enumerate(name_data.keys()):
-            if len(name_data[aid]) < 5:  # n_pubs of current author is too small
+            if len(name_data[aid]) < 2:  # n_pubs of current author is too small
                 continue
             for pid in name_data[aid]:
                 cur_emb = lc_input.get(pid)
@@ -110,3 +110,4 @@ if __name__ == '__main__':
     dump_inter_emb()
     gen_local_data(idf_threshold=IDF_THRESHOLD)
     print('done')
+

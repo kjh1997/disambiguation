@@ -50,8 +50,11 @@ def gae_for_na(name):
     :param name:  author name
     :return: evaluation results
     """
-    adj, features, labels = load_local_data(name=name)
-
+    try:
+        adj, features, labels = load_local_data(name=name)
+    except Exception as e:
+        print("없음")
+        return 0
     # Store original adjacency matrix (without diagonal entries) for later
     adj_orig = adj
     adj_orig = adj_orig - sp.dia_matrix((adj_orig.diagonal()[np.newaxis, :], [0]), shape=adj_orig.shape)
@@ -133,14 +136,16 @@ def gae_for_na(name):
         avg_cost = outs[1]
         avg_accuracy = outs[2]
 
-        print("Epoch:", '%04d' % (epoch + 1), "train_loss=", "{:.5f}".format(avg_cost),
-              "train_acc=", "{:.5f}".format(avg_accuracy),
-              "time=", "{:.5f}".format(time.time() - t))
+ #       print("Epoch:", '%04d' % (epoch + 1), "train_loss=", "{:.5f}".format(avg_cost),
+  #            "train_acc=", "{:.5f}".format(avg_accuracy),
+   #           "time=", "{:.5f}".format(time.time() - t))
 
     emb = get_embs()
     n_clusters = len(set(labels))
     emb_norm = normalize_vectors(emb)
     clusters_pred = clustering(emb_norm, num_clusters=n_clusters)
+    print(clusters_pred)
+    print("-------------------------------------------2")
     prec, rec, f1 =  pairwise_precision_recall_f1(clusters_pred, labels)
     print('pairwise precision', '{:.5f}'.format(prec),
           'recall', '{:.5f}'.format(rec),
@@ -153,19 +158,22 @@ def load_test_names():
 
 
 def main():
+    cnt=0
     names = load_test_names()
-    wf = codecs.open(join(settings.OUT_DIR, 'local_clustering_results.csv'), 'w', encoding='utf-8')
+    wf = codecs.open(join(settings.OUT_DIR, 'local_clustering_results.csv'), 'w', encoding='utf-8-sig')
     wf.write('name,n_pubs,n_clusters,precision,recall,f1\n')
     metrics = np.zeros(3)
     cnt = 0
+    print(len(names))
     for name in names:
+        cnt +=1
         cur_metric, num_nodes, n_clusters = gae_for_na(name)
         wf.write('{0},{1},{2},{3:.5f},{4:.5f},{5:.5f}\n'.format(
             name, num_nodes, n_clusters, cur_metric[0], cur_metric[1], cur_metric[2]))
         wf.flush()
         for i, m in enumerate(cur_metric):
             metrics[i] += m
-        cnt += 1
+        print(cnt)
         macro_prec = metrics[0] / cnt
         macro_rec = metrics[1] / cnt
         macro_f1 = cal_f1(macro_prec, macro_rec)
@@ -183,5 +191,6 @@ def main():
 if __name__ == '__main__':
     # gae_for_na('hongbin_liang')
     # gae_for_na('j_yu')
-    # gae_for_na('s_yu')
+    # gae_for_na('박기문')
     main()
+    #gae_for_na('권현주')
