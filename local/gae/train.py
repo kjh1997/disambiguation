@@ -143,6 +143,8 @@ def gae_for_na(name):
     emb = get_embs()
     n_clusters = len(set(labels))
     emb_norm = normalize_vectors(emb)
+    print(emb_norm)
+    sleep(10)
     clusters_pred = clustering(emb_norm, num_clusters=n_clusters)
     print(clusters_pred)
     print("-------------------------------------------2")

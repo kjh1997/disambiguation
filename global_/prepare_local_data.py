@@ -56,7 +56,7 @@ def gen_local_data(idf_threshold=10):
     lc_inter = LMDBClient(INTER_LMDB_NAME)
     LMDB_AUTHOR_FEATURE = "pub_authors.feature"
     lc_feature = LMDBClient(LMDB_AUTHOR_FEATURE)
-    graph_dir = join(settings.DATA_DIR, 'local', 'graph-{}'.format(idf_threshold))
+    graph_dir = join(settings.DATA_DIR, 'local', 'graph-1')
     os.makedirs(graph_dir, exist_ok=True)
     for i, name in enumerate(name_to_pubs_test):
         print(i, name)
@@ -69,7 +69,7 @@ def gen_local_data(idf_threshold=10):
         wf_content = open(join(graph_dir, '{}_pubs_content.txt'.format(name)), 'w')
         for i, aid in enumerate(cur_person_dict):
             items = cur_person_dict[aid]
-            if len(items) < 5:
+            if len(items) < 2:
                 continue
             for pid in items:
                 pids2label[pid] = aid

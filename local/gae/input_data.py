@@ -4,7 +4,7 @@ import scipy.sparse as sp
 from utils import settings
 from global_.prepare_local_data import IDF_THRESHOLD
 from time import sleep
-local_na_dir = join(settings.DATA_DIR, 'local', 'graph-32')
+local_na_dir = join(settings.DATA_DIR, 'local', 'graph-1')
 
 
 def encode_labels(labels):
